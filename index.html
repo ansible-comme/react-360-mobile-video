@@ -1,0 +1,58 @@
+<html>
+  <head>
+    <title>interview360</title>
+    <style>body { margin: 0; }</style>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+    <!-- Attachment point for your app -->
+    <div id="container">
+      <div id="buttonHold">
+      <button id="playbutton">
+        Enable Sound for Mobile & Begin VR
+      </button>
+      <video id="video" width="0" height="0">
+        <source src="video.mp4" type="video/mp4" />
+      </video>
+      </div>
+    </div>
+    <script>
+    let videoElem = document.getElementById("video");
+    let playButton = document.getElementById("playbutton");
+    playButton.addEventListener("click", playVideo, false);
+
+    async function playVideo() {
+      try {
+        await videoPlayUnmutePause();
+        enterApp();
+      } catch(err) {
+        console.log(err);
+      }
+    }
+
+    function videoPlayUnmutePause() {
+      videoElem.play();
+      videoElem.muted = false;
+      videoElem.pause();
+      const elem = document.getElementById('buttonHold');
+      elem.parentNode.removeChild(elem);
+    }
+
+
+
+
+    function enterApp() {
+      // Initialize the React 360 application
+      React360.init(
+        'index.bundle?platform=vr&dev=true',
+        document.getElementById('container'),
+        {
+          assetRoot: 'static_assets/',
+        }
+      );
+    }
+    </script>
+    <script src="./client.bundle?platform=vr"></script>
+  </body>
+</html>
